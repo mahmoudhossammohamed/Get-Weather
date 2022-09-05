@@ -1,0 +1,47 @@
+
+#forcast-list li{
+    list-style: none;
+}
+div{
+    margin: 1rem;
+    border: 2px;
+}
+span{
+    display: inline-block;
+    width: 20%;
+    border: 2px solid black;
+    margin: 2px;
+    margin-left: 3rem;
+}
+.btn-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn{
+    height: 5rem;
+    border-radius: 2rem;
+    display: flex;
+    justify-content: center;
+    color: black;
+    background-color: yellow;
+    font-size: 28px;
+    align-items: center;
+}
+.body{
+    margin-left: 46rem;
+    font-size: 30px;
+}
+.body h2{
+    font-size: 24px;
+}
+body{
+    background-image: url(back.jpg);
+    color: yellow;
+    font-size: 20px;
+}
+
+.imgs{
+    width: 8rem;
+    height: 8rem;
+}
