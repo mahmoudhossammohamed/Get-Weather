@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get-Weather</title>
+    <link rel="stylesheet" href="style1.css">
+    <!-- <style>
+        #forcast-list li{
+            list-style: none;
+        }
+        div{
+            margin: 1rem;
+            border: 2px;
+        }
+        span{
+            display: inline-block;
+            width: 20%;
+            border: 2px solid black;
+            margin: 2px;
+            margin-left: 3rem;
+        }
+        .btn-div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .btn{
+            height: 5rem;
+            border-radius: 2rem;
+            display: flex;
+            justify-content: center;
+            color: black;
+            background-color: yellow;
+            font-size: 28px;
+            align-items: center;
+        }
+        .body{
+            margin-left: 46rem;
+            font-size: 30px;
+        }
+        .body h2{
+            font-size: 24px;
+        }
+        body{
+            background-image: url(back.jpg);
+            color: yellow;
+            font-size: 20px;
+        }
+
+    </style> -->
+</head>
+<body>
+    <div class="btn-div">
+        <button id="btn-getlocation" class="btn"> Get Weather</button>
+    </div>
+    <div class="body">
+    <h1 class="b1" id="country"></h1>    
+    <h2 class="b1" id="region" ></h2>
+    <h2 class="b1" id="name" ></h2>
+    <h2 class="b1" id="tz_id" ></h2>
+    <h2 class="b1" id="localtime" ></h2>
+    </div>
+
+    <div class="">
+        <ul id="list"></ul>
+    </div>
+
+    <script>
+
+       var country = document.getElementById("country");
+       var region = document.getElementById("region");
+       var tz_id = document.getElementById("tz_id");
+       var localtime = document.getElementById("localtime");
+       var list = document.getElementById("list");
+
+        document.getElementById("btn-getlocation").onclick = function(){
+            navigator.geolocation.getCurrentPosition(function(c){
+                    console.log(c.coords.latitude);
+                    console.log(c.coords.longitude);
+
+                       fetch(`https://api.weatherapi.com/v1/forecast.json?key=54c8355c726842bea84113439222808&q=${c.coords.latitude},${c.coords.longitude}&days=1&aqi=no&alerts=no`)
+        .then(function(e){
+            console.log(e.body);
+            return e.json();
+        }).then(function(so){
+            console.log(so);
+
+            country.innerText =so.location.country;
+            region.innerText =so.location.name;
+            tz_id.innerText =so.location.tz_id;
+            localtime.innerText =so.location.localtime;
+            let builder ="";
+           for (const item of so.forecast.forecastday[0].hour) {
+            builder+= `<span style="border-radius:1rem;"> <img  class="imgs" src='${item.condition.icon}' alt="sun/cloud(img)" />  
+                    <div>Date & Time: ${ item.time}</div>
+                    <div> ${item.condition.text}</div>
+                    <div>Day? ${item.is_day}</div>
+                    <div>Humidity: ${item.humidity}</div>
+                    <div>feels-like in c: ${item.feelslike_c}</div>   
+                    <div>feels-like in f: ${item.feelslike_f}</div>
+                    <div>Temprature in C: ${item.temp_c}</div>
+                    <div>Temprature in F: ${item.temp_f}</div>
+                    <div>Cloudy? ${item.cloud}</div>
+                    <div>Chance of rain! ${item.chance_of_rain}</div>
+                    <div>Chance of snow! ${item.chance_of_snow}</div>
+                    <div>The region: ${so.location.name}</div>
+                    <div>Time: ${item.time}</div> </span> `
+           }
+           list.innerHTML = builder;
+
+        });
+            });
+        }
+    </script>
+</body>
+</html>
